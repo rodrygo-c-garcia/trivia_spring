@@ -3,23 +3,20 @@ package com.trivia.trivia.controllers;
 import com.trivia.trivia.entities.Category;
 import com.trivia.trivia.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TriviaController {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @GetMapping("/question/{category}")
-    public Category getCategory(@PathVariable Long category){
-        List<Category> categories = new ArrayList<>();
-        categories.add(categoryRepository.getById(category));
+    @GetMapping("/category")
+    public Category getCategoryById(@RequestParam("id") Long id){
+        return categoryRepository.getById(id);
+    }
 
-        return categories.get(0);
+    @PostMapping("/category")
+    public String createCategory(@RequestBody Category category){
+        return categoryRepository.create(category);
     }
 }
